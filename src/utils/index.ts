@@ -24,7 +24,7 @@ export const readPostListPath = async () => {
 export const readMdContent = async (path: string) => {
   const _path = p.join(absPath(""), path + ".md");
   const data = await fsp.readFile(
-    _path.replace(`\\docs\\docs`, "\\docs"),
+    _path.replace(`\\docs\\docs`, "\\docs").replace(`/docs/docs/`,'/docs'),
     "utf8"
   );
   const matter = fm(data) as any;
