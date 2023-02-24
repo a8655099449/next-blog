@@ -1,6 +1,7 @@
 import { readMdContent, readPostListPath } from '@/utils';
 import { GetStaticProps, NextPage } from 'next';
-import { ReactElement } from 'react';
+import Head from 'next/head';
+import { ReactElement, useMemo } from 'react';
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { path } = ctx.params as any
 
@@ -29,11 +30,14 @@ type PostPageProps = {
 }
 const PostPage: NextPage<PostPageProps> = ({ data = {} as postItem }): ReactElement => {
   return <div>
-    <h1>{data.title}</h1>
-    <div dangerouslySetInnerHTML={{
-      __html: data.html
-    }}>
-
+    <Head>
+      <title>{data.title}</title>
+    </Head>
+    <div className='container-box vp-doc'>
+      <div dangerouslySetInnerHTML={{
+        __html: data.html
+      }}>
+      </div>
     </div>
   </div>;
 };
