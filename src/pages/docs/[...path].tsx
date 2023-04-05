@@ -1,7 +1,8 @@
 import { readMdContent, readPostListPath } from '@/utils';
+import { copy2Clipboard } from '@/utils/coyp';
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
-import { ReactElement, useMemo } from 'react';
+import { ReactElement, useEffect, useMemo } from 'react';
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { path } = ctx.params as any
 
@@ -29,6 +30,22 @@ type PostPageProps = {
   data: postItem
 }
 const PostPage: NextPage<PostPageProps> = ({ data = {} as postItem }): ReactElement => {
+
+  useEffect(() => {
+
+    const copyBtnList = document.querySelectorAll('.copy-btn')
+    copyBtnList.forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+
+        const uid = btn.dataset.uid
+        const value = (document.getElementById(uid) as any).value
+        copy2Clipboard(value)
+
+      })
+    })
+
+  }, [])
+
   return <div>
     <Head>
       <title>{data.title}</title>

@@ -4,15 +4,32 @@ import fm from "front-matter";
 import p from "path";
 import MarkdownIt from "markdown-it";
 import Prism from "prismjs";
-const loadLanguages = require("prismjs/components/");
-loadLanguages(["go", "typescript", "ts", "go-module", "go-mod"]);
+import loadLanguages from "prismjs/components/";
 import dayjs from "dayjs";
+
+loadLanguages(["go", "typescript", "ts", "go-module", "go-mod"]);
+function createRandomString(
+  length = 8,
+  chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+) {
+  let result = "";
+  for (let i = length; i > 0; --i)
+    result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
+}
 
 const md = new MarkdownIt({
   html: true,
   highlight: (code, lang) => {
     const grammar = Prism.languages[lang] || Prism.languages.markup;
-    return Prism.highlight(code, grammar, lang);
+
+    const uuid = createRandomString();
+
+    return `<button class="copy-btn" data-uid="${uuid}">复制</button>${Prism.highlight(
+      code,
+      grammar,
+      lang
+    )}<textarea  id="${uuid}" style="position: absolute;top: -9999px;left: -9999px;z-index: -9999;" >${code}</textarea>`;
   },
 });
 
@@ -39,13 +56,13 @@ export const readPostListPath = async () => {
 };
 
 const parseHtmlContent = (content: string) => {
-  const reg = /:::(.*?)\s?\n([\s\S]*?)\n:::/g;
+  // const reg = /:::(.*?)\s?\n([\s\S]*?)\n:::/g;
 
-  const reg2 = /```(.*?)\n([\s\S]*?)\n```/g;
+  // const reg2 = /```(.*?)\n([\s\S]*?)\n```/g;
 
-  let _content = content?.replace(reg, `<div class="$1">\n$2\n</div>`);
+  // let _content = content?.replace(reg, `<div class="$1">\n$2\n</div>`);
 
-  return _content;
+  return content;
 };
 
 /**

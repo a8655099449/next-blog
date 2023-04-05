@@ -1,6 +1,7 @@
 import '@/styles/globals.less'
 import '@/styles/doc.less'
-import 'prismjs/themes/prism.css'
+import '@/styles/theme.less'
+import 'prismjs/themes/prism-coy.css'
 import type { AppProps } from 'next/app'
 import Layout from './components/Layout'
 
